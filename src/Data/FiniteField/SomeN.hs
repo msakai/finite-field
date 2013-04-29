@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, Rank2Types, GADTs #-}
+{-# LANGUAGE ScopedTypeVariables, Rank2Types, GADTs, DeriveDataTypeable #-}
 {-# OPTIONS_GHC -Wall #-}
 -----------------------------------------------------------------------------
 -- |
@@ -8,7 +8,7 @@
 --
 -- Maintainer  :  masahiro.sakai@gmail.com
 -- Stability   :  provisional
--- Portability :  non-portable (ScopedTypeVariables, Rank2Types, GADTs)
+-- Portability :  non-portable (ScopedTypeVariables, Rank2Types, GADTs, DeriveDataTypeable)
 --
 -- Utility for type-level manipulation of natural numbers
 --
@@ -21,10 +21,12 @@ module Data.FiniteField.SomeN
 import Prelude hiding (fromInteger)
 import Control.DeepSeq
 import Data.Bits
+import Data.Typeable
 import TypeLevel.Number.Nat
 
 data SomeN where
   SomeN :: Nat n => n -> SomeN
+  deriving Typeable
 
 instance Show SomeN where
   showsPrec d (SomeN n) = showParen (d > 10) $

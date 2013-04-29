@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses #-}
+{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable #-}
 {-# OPTIONS_GHC -Wall #-}
 -----------------------------------------------------------------------------
 -- |
@@ -8,7 +8,7 @@
 --
 -- Maintainer  :  masahiro.sakai@gmail.com
 -- Stability   :  provisional
--- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses)
+-- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable)
 --
 -- Finite field of prime order Fp.
 --
@@ -25,13 +25,14 @@ module Data.FiniteField.PrimeField
 import Prelude hiding (toInteger)
 import Control.DeepSeq
 import Data.Ratio (denominator, numerator)
+import Data.Typeable
 import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
 
 -- | Finite field of prime order Fp.
 --
 -- NB: Primality of @p@ is assumed, but not checked.
-newtype PrimeField p = PrimeField Integer deriving (Eq)
+newtype PrimeField p = PrimeField Integer deriving (Eq, Typeable)
 
 -- | conversion to 'Integer'
 toInteger :: PrimeField p -> Integer
