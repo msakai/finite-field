@@ -20,7 +20,6 @@
 module Data.FiniteField.PrimeField
   ( PrimeField
   , toInteger
-  , module Data.FiniteField.UnknownN
   ) where
 
 import Prelude hiding (toInteger)
@@ -28,7 +27,6 @@ import Control.DeepSeq
 import Data.Ratio (denominator, numerator)
 import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
-import Data.FiniteField.UnknownN
 
 -- | Finite field of prime order Fp.
 --
