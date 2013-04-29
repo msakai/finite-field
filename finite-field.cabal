@@ -1,5 +1,5 @@
 Name:		finite-field
-Version:	0.1.0
+Version:	0.2.0
 License:	BSD3
 License-File:	COPYING
 Author:		Masahiro Sakai (masahiro.sakai@gmail.com)
@@ -23,13 +23,17 @@ source-repository head
 Library
   Hs-source-dirs: src
   Build-Depends:
-     base >=4 && <5, deepseq, type-level-natural-number, algebra >=3.1
+     base >=4 && <5, deepseq, type-level-numbers, algebra >=3.1
   Default-Language: Haskell2010
   Other-Extensions:
      MultiParamTypeClasses
      ScopedTypeVariables
+     Rank2Types
+     GADTs
   Exposed-Modules:
      Data.FiniteField.PrimeField
+  Other-Modules:
+     Data.FiniteField.UnknownN
 
 Test-suite TestPrimeField
   Type:              exitcode-stdio-1.0
@@ -46,7 +50,6 @@ Test-suite TestPrimeField
       QuickCheck >=2 && <3,
       finite-field,
       primes,
-      type-level-natural-number,
-      natural-number
+      type-level-numbers
   Default-Language: Haskell2010
   Other-Extensions: TemplateHaskell
