@@ -1,5 +1,5 @@
 Name:		finite-field
-Version:	0.3.0
+Version:	0.4.0
 License:	BSD3
 License-File:	COPYING
 Author:		Masahiro Sakai (masahiro.sakai@gmail.com)
@@ -33,7 +33,7 @@ Library
      GADTs
   Exposed-Modules:
      Data.FiniteField.PrimeField
-     Data.FiniteField.SomeN
+     Data.FiniteField.SomeNat
 
 Test-suite TestPrimeField
   Type:              exitcode-stdio-1.0
