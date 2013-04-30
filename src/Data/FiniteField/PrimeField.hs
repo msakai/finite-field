@@ -134,7 +134,7 @@ instance TL.Nat p => Alg.Field (PrimeField p)
 -- | Create a PrimeField type
 primeField :: Integer -> TH.TypeQ
 primeField n
-  | n <= 0    = error "primeFieldT: negative value"
+  | n <= 0    = error "primeField: negative value"
   | otherwise = [t| PrimeField $(TL.natT n) |]
 
 -- $TH
