@@ -10,7 +10,7 @@
 -- Stability   :  provisional
 -- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable)
 --
--- Finite field of prime order Fp.
+-- Finite field of prime order p, Fp = Z/pZ.
 --
 -- References:
 --
@@ -29,7 +29,7 @@ import Data.Typeable
 import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
 
--- | Finite field of prime order Fp.
+-- | Finite field of prime order p, Fp = Z/pZ.
 --
 -- NB: Primality of @p@ is assumed, but not checked.
 newtype PrimeField p = PrimeField Integer deriving (Eq, Typeable)
