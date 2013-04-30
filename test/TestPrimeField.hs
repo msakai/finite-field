@@ -9,8 +9,7 @@ import Test.Framework.Providers.HUnit
 import Control.Monad
 import Data.Numbers.Primes (primes)
 
-import Data.FiniteField.PrimeField (PrimeField, primeField)
-import qualified Data.FiniteField.PrimeField as PrimeField
+import Data.FiniteField
 import Data.FiniteField.SomeNat (SomeNat (..))
 import qualified Data.FiniteField.SomeNat as SomeNat
 import TypeLevel.Number.Nat
@@ -106,6 +105,14 @@ prop_recip =
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
     forAll arbitrary $ \(a :: PrimeField p) ->
       a /= 0 ==> a * (recip a) == 1
+
+-- ----------------------------------------------------------------------
+-- pthRoot
+
+prop_pthRoot =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      pthRoot a ^ char a == a
 
 -- ----------------------------------------------------------------------
 

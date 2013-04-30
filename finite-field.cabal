@@ -33,6 +33,8 @@ Library
      GADTs
      TemplateHaskell
   Exposed-Modules:
+     Data.FiniteField
+     Data.FiniteField.Base
      Data.FiniteField.PrimeField
      Data.FiniteField.SomeNat
 

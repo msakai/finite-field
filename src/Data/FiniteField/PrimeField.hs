@@ -32,6 +32,7 @@ import Data.Typeable
 import qualified Language.Haskell.TH as TH
 import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
+import Data.FiniteField.Base
 
 -- | Finite field of prime order p, Fp = Z/pZ.
 --
@@ -81,6 +82,11 @@ instance Ord (PrimeField p) where
   PrimeField a `compare` PrimeField b = a `compare` b
   PrimeField a `max` PrimeField b = PrimeField (a `max` b)
   PrimeField a `min` PrimeField b = PrimeField (a `min` b)
+
+instance TL.Nat p => FiniteField (PrimeField p) where
+  order _   = TL.toInt (undefined :: p)
+  char _    = TL.toInt (undefined :: p)
+  pthRoot a = a
 
 -- ---------------------------------------------------------------------------
 
