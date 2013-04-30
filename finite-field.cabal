@@ -23,7 +23,7 @@ source-repository head
 Library
   Hs-source-dirs: src
   Build-Depends:
-     base >=4 && <5, deepseq, type-level-numbers, algebra >=3.1
+     base >=4 && <5, template-haskell, deepseq, type-level-numbers, algebra >=3.1
   Default-Language: Haskell2010
   Other-Extensions:
      DeriveDataTypeable
@@ -31,6 +31,7 @@ Library
      ScopedTypeVariables
      Rank2Types
      GADTs
+     TemplateHaskell
   Exposed-Modules:
      Data.FiniteField.PrimeField
      Data.FiniteField.SomeNat

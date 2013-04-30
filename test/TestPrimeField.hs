@@ -1,13 +1,15 @@
 {-# LANGUAGE TemplateHaskell, ScopedTypeVariables #-}
 
+import Test.HUnit hiding (Test)
 import Test.QuickCheck
 import Test.Framework.TH
 import Test.Framework.Providers.QuickCheck2
+import Test.Framework.Providers.HUnit
 
 import Control.Monad
 import Data.Numbers.Primes (primes)
 
-import Data.FiniteField.PrimeField (PrimeField)
+import Data.FiniteField.PrimeField (PrimeField, primeField)
 import qualified Data.FiniteField.PrimeField as PrimeField
 import Data.FiniteField.SomeNat (SomeNat (..))
 import qualified Data.FiniteField.SomeNat as SomeNat
@@ -111,6 +113,11 @@ prop_intToSomeNat = do
   forAll arbitrary $ \n ->
     case SomeNat.fromInteger (abs n) of
       SomeNat m -> abs n == toInt m
+
+case_primeFieldT = a @?= 1
+  where
+    a :: $(primeField 15485867)
+    a = 15485867 + 1
 
 ------------------------------------------------------------------------
 

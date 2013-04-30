@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable #-}
+{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell #-}
 {-# OPTIONS_GHC -Wall #-}
 -----------------------------------------------------------------------------
 -- |
@@ -8,7 +8,7 @@
 --
 -- Maintainer  :  masahiro.sakai@gmail.com
 -- Stability   :  provisional
--- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable)
+-- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell)
 --
 -- Finite field of prime order p, Fp = Z/pZ.
 --
@@ -20,12 +20,16 @@
 module Data.FiniteField.PrimeField
   ( PrimeField
   , toInteger
+  -- * Template haskell utilities
+  -- $TH
+  , primeField
   ) where
 
 import Prelude hiding (toInteger)
 import Control.DeepSeq
 import Data.Ratio (denominator, numerator)
 import Data.Typeable
+import qualified Language.Haskell.TH as TH
 import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
 
@@ -127,8 +131,14 @@ instance TL.Nat p => Alg.Field (PrimeField p)
 
 -- ---------------------------------------------------------------------------
 
-{-
-type GF2 = PrimeField (SuccessorTo (SuccessorTo Zero))
-type GF3 = PrimeField (SuccessorTo (SuccessorTo (SuccessorTo Zero)))
-type GF5 = PrimeField (SuccessorTo (SuccessorTo (SuccessorTo (SuccessorTo (SuccessorTo Zero)))))
--}
+-- | Create a PrimeField type
+primeField :: Integer -> TH.TypeQ
+primeField n
+  | n <= 0    = error "primeFieldT: negative value"
+  | otherwise = [t| PrimeField $(TL.natT n) |]
+
+-- $TH
+-- Here is usage example for primeField:
+--
+-- > a :: $(primeField 15485867)
+-- > a = 1
