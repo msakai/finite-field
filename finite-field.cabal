@@ -7,7 +7,9 @@ Maintainer:	masahiro.sakai@gmail.com
 Category:	Math, Data
 Cabal-Version:	>= 1.10
 Synopsis:	Finite Fields
-Description:	Implementation of finite fields
+Description:
+  This is an implementation of finite fields.
+  Currently only prime fields are supported.
 Bug-Reports:	https://github.com/msakai/finite-field/issues
 Extra-Source-Files:
    README.md
