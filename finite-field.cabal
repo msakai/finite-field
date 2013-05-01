@@ -4,7 +4,7 @@ License:	BSD3
 License-File:	COPYING
 Author:		Masahiro Sakai (masahiro.sakai@gmail.com)
 Maintainer:	masahiro.sakai@gmail.com
-Category:	Math, Data
+Category:	Math, Algebra, Data
 Cabal-Version:	>= 1.10
 Synopsis:	Finite Fields
 Description:
