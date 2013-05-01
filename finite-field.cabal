@@ -10,6 +10,15 @@ Synopsis:	Finite Fields
 Description:
   This is an implementation of finite fields.
   Currently only prime fields are supported.
+  .
+  Changes in 0.6.0
+  .
+  * add allValues to FiniteField class
+  .
+  Changes in 0.5.0
+  .
+  * introduce FiniteField class
+
 Bug-Reports:	https://github.com/msakai/finite-field/issues
 Extra-Source-Files:
    README.md
