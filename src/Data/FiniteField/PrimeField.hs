@@ -87,6 +87,7 @@ instance TL.Nat p => FiniteField (PrimeField p) where
   order _   = TL.toInt (undefined :: p)
   char _    = TL.toInt (undefined :: p)
   pthRoot a = a
+  allValues = [minBound .. maxBound]
 
 -- ---------------------------------------------------------------------------
 

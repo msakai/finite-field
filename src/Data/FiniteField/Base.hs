@@ -28,3 +28,6 @@ class Fractional k => FiniteField k where
 
   -- | The inverse of Frobenius endomorphism @x@ ↦ @x^p@.
   pthRoot :: k -> k
+
+  -- | All values of the field
+  allValues :: [k]

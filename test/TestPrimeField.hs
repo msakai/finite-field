@@ -7,6 +7,7 @@ import Test.Framework.Providers.QuickCheck2
 import Test.Framework.Providers.HUnit
 
 import Control.Monad
+import Data.List (genericLength)
 import Data.Numbers.Primes (primes)
 
 import Data.FiniteField
@@ -107,12 +108,16 @@ prop_recip =
       a /= 0 ==> a * (recip a) == 1
 
 -- ----------------------------------------------------------------------
--- pthRoot
+-- FiniteField type class
 
 prop_pthRoot =
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
     forAll arbitrary $ \(a :: PrimeField p) ->
       pthRoot a ^ char a == a
+
+prop_allValues = do
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    genericLength (allValues :: [PrimeField p]) == order (undefined :: PrimeField p)
 
 -- ----------------------------------------------------------------------
 
