@@ -27,6 +27,7 @@ module Data.FiniteField.PrimeField
 
 import Prelude hiding (toInteger)
 import Control.DeepSeq
+import Data.Hashable
 import Data.Ratio (denominator, numerator)
 import Data.Typeable
 import qualified Language.Haskell.TH as TH
@@ -88,6 +89,10 @@ instance TL.Nat p => FiniteField (PrimeField p) where
   char _    = TL.toInt (undefined :: p)
   pthRoot a = a
   allValues = [minBound .. maxBound]
+
+instance TL.Nat p => Hashable (PrimeField p) where
+  hashWithSalt s (PrimeField a) =
+    s `hashWithSalt` (TL.toInt (undefined :: p) :: Int) `hashWithSalt` a
 
 -- ---------------------------------------------------------------------------
 

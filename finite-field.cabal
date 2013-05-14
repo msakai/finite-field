@@ -1,5 +1,5 @@
 Name:		finite-field
-Version:	0.6.0
+Version:	0.7.0
 License:	BSD3
 License-File:	COPYING
 Author:		Masahiro Sakai (masahiro.sakai@gmail.com)
@@ -10,6 +10,10 @@ Synopsis:	Finite Fields
 Description:
   This is an implementation of finite fields.
   Currently only prime fields are supported.
+  .
+  Changes in 0.6.0
+  .
+  * add Hashable instance
   .
   Changes in 0.6.0
   .
@@ -34,7 +38,7 @@ source-repository head
 Library
   Hs-source-dirs: src
   Build-Depends:
-     base >=4 && <5, template-haskell, deepseq, type-level-numbers, algebra >=3.1
+     base >=4 && <5, template-haskell, deepseq, hashable, type-level-numbers, algebra >=3.1
   Default-Language: Haskell2010
   Other-Extensions:
      DeriveDataTypeable
