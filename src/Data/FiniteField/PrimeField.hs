@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell #-}
+{-# LANGUAGE ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell, BangPatterns #-}
 {-# OPTIONS_GHC -Wall #-}
 -----------------------------------------------------------------------------
 -- |
@@ -8,7 +8,7 @@
 --
 -- Maintainer  :  masahiro.sakai@gmail.com
 -- Stability   :  provisional
--- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell)
+-- Portability :  non-portable (ScopedTypeVariables, MultiParamTypeClasses, DeriveDataTypeable, TemplateHaskell, BangPatterns)
 --
 -- Finite field of prime order p, Fp = Z/pZ.
 --
@@ -67,7 +67,13 @@ instance TL.Nat p => Num (PrimeField p) where
 
 instance TL.Nat p => Fractional (PrimeField p) where
   fromRational r = fromInteger (numerator r) / fromInteger (denominator r)
-  recip a = a ^ (TL.toInt (undefined :: p) - 2 :: Integer)
+--  recip a = a ^ (TL.toInt (undefined :: p) - 2 :: Integer)
+  recip (PrimeField a) =
+    case exgcd a p of
+      (_, r, _) -> fromInteger r
+    where
+      p :: Integer
+      p = TL.toInt (undefined :: p)
 
 instance TL.Nat p => Bounded (PrimeField p) where
   minBound = PrimeField 0
@@ -93,6 +99,21 @@ instance TL.Nat p => FiniteField (PrimeField p) where
 instance TL.Nat p => Hashable (PrimeField p) where
   hashWithSalt s (PrimeField a) =
     s `hashWithSalt` (TL.toInt (undefined :: p) :: Int) `hashWithSalt` a
+
+-- | Extended GCD algorithm
+exgcd :: (Eq a, Integral a) => a -> a -> (a, a, a)
+exgcd f1 f2 = f $ go f1 f2 1 0 0 1
+  where
+    go !r0 !r1 !s0 !s1 !t0 !t1
+      | r1 == 0   = (r0, s0, t0)
+      | otherwise = go r1 r2 s1 s2 t1 t2
+      where
+        (q, r2) = r0 `divMod` r1
+        s2 = s0 - q*s1
+        t2 = t0 - q*t1
+    f (g,u,v)
+      | g < 0 = (-g, -u, -v)
+      | otherwise = (g,u,v)
 
 -- ---------------------------------------------------------------------------
 
