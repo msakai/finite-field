@@ -15,6 +15,8 @@ Description:
   .
   * use extended GCD to compute reciprocals
   .
+  * remove NFData instance from SomeNat type
+  .
   Changes in 0.6.0
   .
   * add Hashable instance

@@ -19,7 +19,6 @@ module Data.FiniteField.SomeNat
   ) where
 
 import Prelude hiding (fromInteger)
-import Control.DeepSeq
 import Data.Bits
 import Data.Typeable
 import TypeLevel.Number.Nat
@@ -31,8 +30,6 @@ data SomeNat where
 instance Show SomeNat where
   showsPrec d (SomeNat n) = showParen (d > 10) $
     showString "fromInteger " . shows (toInt n :: Integer)
-
-instance NFData SomeNat
 
 fromInteger :: Integer -> SomeNat
 fromInteger a | a < 0  = error "Data.FiniteField.SomeNat.fromInteger: negative number"
