@@ -11,6 +11,10 @@ Description:
   This is an implementation of finite fields.
   Currently only prime fields are supported.
   .
+  Changes in 0.7.0
+  .
+  * use extended GCD to compute reciprocals
+  .
   Changes in 0.6.0
   .
   * add Hashable instance
