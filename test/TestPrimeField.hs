@@ -11,8 +11,6 @@ import Data.List (genericLength)
 import Data.Numbers.Primes (primes)
 
 import Data.FiniteField
-import Data.FiniteField.SomeNat (SomeNat (..))
-import qualified Data.FiniteField.SomeNat as SomeNat
 import TypeLevel.Number.Nat
 
 -- ----------------------------------------------------------------------
@@ -121,11 +119,6 @@ prop_allValues = do
 
 -- ----------------------------------------------------------------------
 
-prop_intToSomeNat = do
-  forAll arbitrary $ \n ->
-    case SomeNat.fromInteger (abs n) of
-      SomeNat m -> abs n == toInt m
-
 case_primeFieldT = a @?= 1
   where
     a :: $(primeField 15485867)
@@ -136,7 +129,7 @@ case_primeFieldT = a @?= 1
 smallPrimes :: Gen SomeNat
 smallPrimes = do
   i <- choose (0, 2^(16::Int))
-  return $ SomeNat.fromInteger $ primes !! i
+  return $ withNat SomeNat (primes !! i)
 
 instance Nat p => Arbitrary (PrimeField p) where
   arbitrary = liftM fromInteger arbitrary

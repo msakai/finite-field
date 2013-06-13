@@ -15,7 +15,7 @@ Description:
   .
   * use extended GCD to compute reciprocals
   .
-  * remove NFData instance from SomeNat type
+  * conform with the addition of SomeNat type to type-level-numbers-0.1.1.0.
   .
   Changes in 0.6.0
   .
@@ -44,7 +44,7 @@ source-repository head
 Library
   Hs-source-dirs: src
   Build-Depends:
-     base >=4 && <5, template-haskell, deepseq, hashable, type-level-numbers, algebra >=3.1
+     base >=4 && <5, template-haskell, deepseq, hashable, type-level-numbers >=0.1.1.0 && <0.2.0.0, algebra >=3.1
   Default-Language: Haskell2010
   Other-Extensions:
      DeriveDataTypeable
@@ -58,7 +58,6 @@ Library
      Data.FiniteField
      Data.FiniteField.Base
      Data.FiniteField.PrimeField
-     Data.FiniteField.SomeNat
 
 Test-suite TestPrimeField
   Type:              exitcode-stdio-1.0
@@ -75,6 +74,6 @@ Test-suite TestPrimeField
       QuickCheck >=2 && <3,
       finite-field,
       primes,
-      type-level-numbers
+      type-level-numbers >=0.1.1.0 && <0.2.0.0
   Default-Language: Haskell2010
   Other-Extensions: TemplateHaskell
