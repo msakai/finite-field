@@ -31,7 +31,6 @@ import Data.Hashable
 import Data.Ratio (denominator, numerator)
 import Data.Typeable
 import qualified Language.Haskell.TH as TH
-import qualified Numeric.Algebra as Alg
 import qualified TypeLevel.Number.Nat as TL
 import Data.FiniteField.Base
 
@@ -114,53 +113,6 @@ exgcd f1 f2 = f $ go f1 f2 1 0 0 1
     f (g,u,v)
       | g < 0 = (-g, -u, -v)
       | otherwise = (g,u,v)
-
--- ---------------------------------------------------------------------------
-
-instance TL.Nat p => Alg.Multiplicative (PrimeField p) where
-  (*) = (*)
-
-instance TL.Nat p => Alg.Commutative (PrimeField p)
-
-instance TL.Nat p => Alg.Unital (PrimeField p) where
-  one = 1
-
-instance TL.Nat p => Alg.Division (PrimeField p) where
-  recip = recip
-
-instance TL.Nat p => Alg.Additive (PrimeField p) where
-  (+) = (+)
-
-instance TL.Nat p => Alg.Abelian (PrimeField p)
-
-instance TL.Nat p => Alg.Semiring (PrimeField p)
-
-instance TL.Nat p => Alg.LeftModule Alg.Natural (PrimeField p) where
-  n .* a = fromIntegral n * a
-
-instance TL.Nat p => Alg.RightModule Alg.Natural (PrimeField p) where
-  a *. n = a * fromIntegral n
-
-instance TL.Nat p => Alg.Monoidal (PrimeField p) where
-  zero = 0
-
-instance TL.Nat p => Alg.LeftModule Integer (PrimeField p) where
-  n .* a = fromIntegral n * a
-
-instance TL.Nat p => Alg.RightModule Integer (PrimeField p) where
-  a *. n = a * fromIntegral n
-
-instance TL.Nat p => Alg.Group (PrimeField p) where
-  negate = negate
-
-instance TL.Nat p => Alg.Rig (PrimeField p)
-
-instance TL.Nat p => Alg.Ring (PrimeField p)
-
-instance TL.Nat p => Alg.Characteristic (PrimeField p) where
-  char _ = TL.toInt (undefined :: p)
-
-instance TL.Nat p => Alg.Field (PrimeField p)
 
 -- ---------------------------------------------------------------------------
 

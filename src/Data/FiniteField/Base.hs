@@ -14,7 +14,6 @@ module Data.FiniteField.Base
   ) where
 
 import Data.Ratio
-import qualified Numeric.Algebra as Alg
 
 -- | Type class for finite fields
 class Fractional k => FiniteField k where

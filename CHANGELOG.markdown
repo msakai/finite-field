@@ -1,3 +1,7 @@
+0.8.0
+-----
+* remove dependency on `algebra` package, since it is outdated and not compatible with recent version of other packages
+
 0.7.0
 -----
 * use extended GCD to compute reciprocals
