@@ -10,29 +10,11 @@ Synopsis:	Finite Fields
 Description:
   This is an implementation of finite fields.
   Currently only prime fields are supported.
-  .
-  Changes in 0.7.0
-  .
-  * use extended GCD to compute reciprocals
-  .
-  * conform with the addition of SomeNat type to type-level-numbers-0.1.1.0.
-  .
-  Changes in 0.6.0
-  .
-  * add Hashable instance
-  .
-  Changes in 0.6.0
-  .
-  * add allValues to FiniteField class
-  .
-  Changes in 0.5.0
-  .
-  * introduce FiniteField class
-
 Bug-Reports:	https://github.com/msakai/finite-field/issues
 Extra-Source-Files:
    README.md
    COPYING
+   CHANGELOG.markdown
    .travis.yml
    .gitignore
 Build-Type: Simple
