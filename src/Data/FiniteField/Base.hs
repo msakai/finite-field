@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wall #-}
 -----------------------------------------------------------------------------
 -- |
 -- module      :  Data.FiniteField.Base
@@ -12,8 +13,6 @@
 module Data.FiniteField.Base
   ( FiniteField (..)
   ) where
-
-import Data.Ratio
 
 -- | Type class for finite fields
 class Fractional k => FiniteField k where
