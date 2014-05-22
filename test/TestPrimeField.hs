@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell, ScopedTypeVariables #-}
+{-# OPTIONS_GHC -fcontext-stack=32 #-}
 
 import Test.HUnit hiding (Test)
 import Test.QuickCheck
