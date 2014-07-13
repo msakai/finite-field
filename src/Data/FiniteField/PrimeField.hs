@@ -62,21 +62,25 @@ instance TL.Nat p => Num (PrimeField p) where
   negate (PrimeField a)       = fromInteger $ negate a
   abs a         = a
   signum _      = 1
-  fromInteger a = PrimeField $ a `mod` TL.toInt (undefined :: p)
+  fromInteger a = ret
+    where
+      ret = PrimeField $ a `mod` char ret
 
 instance TL.Nat p => Fractional (PrimeField p) where
   fromRational r = fromInteger (numerator r) / fromInteger (denominator r)
---  recip a = a ^ (TL.toInt (undefined :: p) - 2 :: Integer)
-  recip (PrimeField a) =
+--  recip a = a ^ (char a - 2 :: Integer)
+  recip x@(PrimeField a) =
     case exgcd a p of
       (_, r, _) -> fromInteger r
     where
       p :: Integer
-      p = TL.toInt (undefined :: p)
+      p = char x
 
 instance TL.Nat p => Bounded (PrimeField p) where
   minBound = PrimeField 0
-  maxBound = PrimeField (TL.toInt (undefined :: p) - 1)
+  maxBound = ret
+    where
+      ret = PrimeField (char ret - 1)
 
 instance TL.Nat p => Enum (PrimeField p) where
   toEnum x
@@ -88,14 +92,14 @@ instance Ord (PrimeField p) where
   PrimeField a `compare` PrimeField b = a `compare` b
 
 instance TL.Nat p => FiniteField (PrimeField p) where
-  order _   = TL.toInt (undefined :: p)
+  order x   = char x
   char _    = TL.toInt (undefined :: p)
   pthRoot a = a
   allValues = [minBound .. maxBound]
 
 instance TL.Nat p => Hashable (PrimeField p) where
-  hashWithSalt s (PrimeField a) =
-    s `hashWithSalt` (TL.toInt (undefined :: p) :: Int) `hashWithSalt` a
+  hashWithSalt s x@(PrimeField a) =
+    s `hashWithSalt` char x `hashWithSalt` a
 
 -- | Extended GCD algorithm
 exgcd :: (Eq a, Integral a) => a -> a -> (a, a, a)
