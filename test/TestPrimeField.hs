@@ -19,36 +19,62 @@ import Data.Numbers.Primes (primes)
 import Data.Ratio
 
 import Data.FiniteField
+#if !defined(UseGHCTypeLits)
 import TypeLevel.Number.Nat
+#else
+import Data.Maybe
+import Data.Proxy
+import GHC.TypeLits
+#endif
 
 -- ----------------------------------------------------------------------
 -- addition
 
 prop_add_comm =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
       a + b == b + a
 
 prop_add_assoc =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
     forAll arbitrary $ \c ->
       (a + b) + c == a + (b + c)
 
 prop_add_unitl =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       0 + a == a
 
 prop_add_unitr =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       a + 0 == a
 
 prop_negate =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       a + negate a == 0
 
@@ -62,35 +88,59 @@ prop_sub_negate =
 -- multiplication
 
 prop_mult_comm =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
       a * b == b * a
 
 prop_mult_assoc =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
     forAll arbitrary $ \c ->
       (a * b) * c == a * (b * c)
 
 prop_mult_unitl =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       1 * a == a
 
 prop_mult_unitr =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       a * 1 == a
 
 prop_mult_zero_l =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       0*a == 0
 
 prop_mult_zero_r =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
         forAll arbitrary $ \(a :: PrimeField p) ->
           a*0 == 0
 
@@ -98,14 +148,22 @@ prop_mult_zero_r =
 -- distributivity
 
 prop_distl =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
     forAll arbitrary $ \c ->
       a * (b + c) == a*b + a*c
 
 prop_distr =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \b ->
     forAll arbitrary $ \c ->
@@ -133,7 +191,11 @@ prop_fromRational =
       (fromRational r :: PrimeField p) == fromInteger (numerator r) / fromInteger (denominator r)
 
 prop_recip =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       a /= 0 ==> a * (recip a) == 1
 
@@ -141,12 +203,20 @@ prop_recip =
 -- FiniteField
 
 prop_pthRoot =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       pthRoot a ^ char a == a
 
 prop_allValues = do
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     genericLength (allValues :: [PrimeField p]) == order (undefined :: PrimeField p)
 
 -- ----------------------------------------------------------------------
@@ -213,9 +283,17 @@ case_primeFieldT = a @?= 1
 smallPrimes :: Gen SomeNat
 smallPrimes = do
   i <- choose (0, 2^(16::Int))
+#if !defined(UseGHCTypeLits)
   return $ withNat SomeNat (primes !! i)
+#else
+  return $ fromJust $ someNatVal $ primes !! i
+#endif
 
+#if !defined(UseGHCTypeLits)
 instance Nat p => Arbitrary (PrimeField p) where
+#else
+instance KnownNat p => Arbitrary (PrimeField p) where
+#endif
   arbitrary = liftM fromInteger arbitrary
 
 ------------------------------------------------------------------------
