@@ -36,7 +36,7 @@ Library
      Build-Depends: base >=4.7, singletons >=1.0
      CPP-OPtions: "-DUseGHCTypeLits"
   else
-     type-level-numbers >=0.1.1.0 && <0.2.0.0
+     Build-Depends: type-level-numbers >=0.1.1.0 && <0.2.0.0
   Default-Language: Haskell2010
   Other-Extensions:
      DeriveDataTypeable
