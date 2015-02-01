@@ -10,6 +10,7 @@ import Test.Framework.Providers.HUnit
 import Control.Monad
 import Data.List (genericLength)
 import Data.Numbers.Primes (primes)
+import Data.Ratio
 
 import Data.FiniteField
 import TypeLevel.Number.Nat
@@ -44,6 +45,12 @@ prop_negate =
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
     forAll arbitrary $ \(a :: PrimeField p) ->
       a + negate a == 0
+
+prop_sub_negate =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+    forAll arbitrary $ \(b :: PrimeField p) ->
+      a - b == a + negate b
 
 -- ----------------------------------------------------------------------
 -- multiplication
@@ -99,7 +106,25 @@ prop_distr =
       (b + c) * a == b*a + c*a
 
 -- ----------------------------------------------------------------------
--- recip
+-- misc Num methods
+
+prop_abs =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      abs a == a
+
+prop_signum =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      signum a == 1
+
+-- ----------------------------------------------------------------------
+-- Fractional
+
+prop_fromRational =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(r :: Rational) ->
+      (fromRational r :: PrimeField p) == fromInteger (numerator r) / fromInteger (denominator r)
 
 prop_recip =
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
@@ -107,7 +132,7 @@ prop_recip =
       a /= 0 ==> a * (recip a) == 1
 
 -- ----------------------------------------------------------------------
--- FiniteField type class
+-- FiniteField
 
 prop_pthRoot =
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
@@ -117,6 +142,14 @@ prop_pthRoot =
 prop_allValues = do
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
     genericLength (allValues :: [PrimeField p]) == order (undefined :: PrimeField p)
+
+-- ----------------------------------------------------------------------
+-- Show / Read
+
+prop_read_show =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      read (show a) == a  
 
 -- ----------------------------------------------------------------------
 
