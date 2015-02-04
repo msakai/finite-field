@@ -48,12 +48,10 @@ Test-suite TestPrimeField
   Build-depends:
       base >=4 && <5,
       containers,
-      test-framework,
-      test-framework-th,
-      test-framework-hunit,
-      test-framework-quickcheck2,
-      HUnit,
-      QuickCheck >=2 && <3,
+      tasty >=0.10.1,
+      tasty-hunit ==0.9.*,
+      tasty-quickcheck ==0.8.*,
+      tasty-th,
       finite-field,
       primes,
       type-level-numbers >=0.1.1.0 && <0.2.0.0

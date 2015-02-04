@@ -1,11 +1,10 @@
 {-# LANGUAGE TemplateHaskell, ScopedTypeVariables #-}
 {-# OPTIONS_GHC -fcontext-stack=32 #-}
 
-import Test.HUnit hiding (Test)
-import Test.QuickCheck
-import Test.Framework.TH
-import Test.Framework.Providers.QuickCheck2
-import Test.Framework.Providers.HUnit
+import Test.Tasty
+import Test.Tasty.QuickCheck
+import Test.Tasty.HUnit
+import Test.Tasty.TH
 
 import Control.Monad
 import Data.List (genericLength)
