@@ -1,12 +1,18 @@
-{-# LANGUAGE TemplateHaskell, ScopedTypeVariables #-}
+{-# LANGUAGE TemplateHaskell, ScopedTypeVariables, CPP #-}
 {-# OPTIONS_GHC -fcontext-stack=32 #-}
+
+import Prelude hiding (toInteger)
 
 import Test.Tasty
 import Test.Tasty.QuickCheck
 import Test.Tasty.HUnit
 import Test.Tasty.TH
+import qualified Test.QuickCheck.Monadic as QM
 
+import Control.DeepSeq
+import Control.Exception
 import Control.Monad
+import Data.Either
 import Data.List (genericLength)
 import Data.Numbers.Primes (primes)
 import Data.Ratio
@@ -151,6 +157,43 @@ prop_read_show =
       read (show a) == a  
 
 -- ----------------------------------------------------------------------
+-- Ord
+
+prop_zero_minimum =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      0 <= a
+
+-- ----------------------------------------------------------------------
+-- NFData
+
+prop_rnf =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      rnf a == ()
+
+-- ----------------------------------------------------------------------
+-- Enum
+
+prop_toEnum_fromEnum =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      toEnum (fromEnum a) == a
+
+prop_toEnum_negative = QM.monadicIO $ do
+  SomeNat (_ :: p) <- QM.pick smallPrimes
+  let a :: PrimeField p
+      a = toEnum (-1)
+  (ret :: Either SomeException (PrimeField p)) <- QM.run $ try $ evaluate $ a
+  QM.assert $ isLeft ret
+
+-- ----------------------------------------------------------------------
+-- misc
+
+prop_fromInteger_toInteger =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      fromInteger (toInteger a) == a
 
 case_primeFieldT = a @?= 1
   where
@@ -172,3 +215,15 @@ instance Nat p => Arbitrary (PrimeField p) where
 
 main :: IO ()
 main = $(defaultMainGenerator)
+
+#if !MIN_VERSION_base(4,7,0)
+
+isLeft :: Either a b -> Bool
+isLeft (Left  _) = True
+isLeft (Right _) = False
+
+isRight :: Either a b -> Bool
+isRight (Left  _) = False
+isRight (Right _) = True
+
+#endif

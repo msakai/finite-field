@@ -86,8 +86,6 @@ instance TL.Nat p => Enum (PrimeField p) where
 
 instance Ord (PrimeField p) where
   PrimeField a `compare` PrimeField b = a `compare` b
-  PrimeField a `max` PrimeField b = PrimeField (a `max` b)
-  PrimeField a `min` PrimeField b = PrimeField (a `min` b)
 
 instance TL.Nat p => FiniteField (PrimeField p) where
   order _   = TL.toInt (undefined :: p)
