@@ -13,6 +13,7 @@ import Control.DeepSeq
 import Control.Exception
 import Control.Monad
 import Data.Either
+import Data.Hashable
 import Data.List (genericLength)
 import Data.Numbers.Primes (primes)
 import Data.Ratio
@@ -186,6 +187,13 @@ prop_toEnum_negative = QM.monadicIO $ do
       a = toEnum (-1)
   (ret :: Either SomeException (PrimeField p)) <- QM.run $ try $ evaluate $ a
   QM.assert $ isLeft ret
+
+-- ----------------------------------------------------------------------
+
+prop_hash =
+  forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+    forAll arbitrary $ \(a :: PrimeField p) ->
+      hash a `seq` () == ()
 
 -- ----------------------------------------------------------------------
 -- misc
