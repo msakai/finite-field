@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, ScopedTypeVariables, CPP #-}
+{-# LANGUAGE TemplateHaskell, ScopedTypeVariables, DataKinds, CPP #-}
 {-# OPTIONS_GHC -fcontext-stack=32 #-}
 
 import Prelude hiding (toInteger)
@@ -79,7 +79,11 @@ prop_negate =
       a + negate a == 0
 
 prop_sub_negate =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
     forAll arbitrary $ \(b :: PrimeField p) ->
       a - b == a + negate b
@@ -173,12 +177,20 @@ prop_distr =
 -- misc Num methods
 
 prop_abs =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       abs a == a
 
 prop_signum =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       signum a == 1
 
@@ -186,7 +198,11 @@ prop_signum =
 -- Fractional
 
 prop_fromRational =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(r :: Rational) ->
       (fromRational r :: PrimeField p) == fromInteger (numerator r) / fromInteger (denominator r)
 
@@ -223,7 +239,11 @@ prop_allValues = do
 -- Show / Read
 
 prop_read_show =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       read (show a) == a  
 
@@ -231,7 +251,11 @@ prop_read_show =
 -- Ord
 
 prop_zero_minimum =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       0 <= a
 
@@ -239,7 +263,11 @@ prop_zero_minimum =
 -- NFData
 
 prop_rnf =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       rnf a == ()
 
@@ -247,12 +275,20 @@ prop_rnf =
 -- Enum
 
 prop_toEnum_fromEnum =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       toEnum (fromEnum a) == a
 
 prop_toEnum_negative = QM.monadicIO $ do
+#if !defined(UseGHCTypeLits)
   SomeNat (_ :: p) <- QM.pick smallPrimes
+#else
+  SomeNat (_ :: Proxy p) <- QM.pick smallPrimes
+#endif
   let a :: PrimeField p
       a = toEnum (-1)
   (ret :: Either SomeException (PrimeField p)) <- QM.run $ try $ evaluate $ a
@@ -261,7 +297,11 @@ prop_toEnum_negative = QM.monadicIO $ do
 -- ----------------------------------------------------------------------
 
 prop_hash =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       hash a `seq` () == ()
 
@@ -269,7 +309,11 @@ prop_hash =
 -- misc
 
 prop_fromInteger_toInteger =
+#if !defined(UseGHCTypeLits)
   forAll smallPrimes $ \(SomeNat (_ :: p)) ->
+#else
+  forAll smallPrimes $ \(SomeNat (_ :: Proxy p)) ->
+#endif
     forAll arbitrary $ \(a :: PrimeField p) ->
       fromInteger (toInteger a) == a
 
