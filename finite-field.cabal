@@ -39,6 +39,7 @@ Library
      Build-Depends: type-level-numbers >=0.1.1.0 && <0.2.0.0
   Default-Language: Haskell2010
   Other-Extensions:
+     ConstraintKinds
      DeriveDataTypeable
      MultiParamTypeClasses
      ScopedTypeVariables
