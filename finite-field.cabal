@@ -73,6 +73,8 @@ Test-suite TestPrimeField
      CPP-OPtions: "-DUseGHCTypeLits"
   else
      Build-depends: type-level-numbers >=0.1.1.0 && <0.2.0.0
+  if impl(ghc<7.7)
+     Build-Depends: tagged
   Default-Language: Haskell2010
   Other-Extensions:
       TemplateHaskell
