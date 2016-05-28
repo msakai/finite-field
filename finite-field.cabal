@@ -19,6 +19,11 @@ Extra-Source-Files:
    .gitignore
 Build-Type: Simple
 
+Flag UseGHCTypeLits
+  Description: set GHC.TypeLits module
+  Default: True
+  Manual: True
+
 source-repository head
   type:     git
   location: git://github.com/msakai/finite-field.git
@@ -26,9 +31,15 @@ source-repository head
 Library
   Hs-source-dirs: src
   Build-Depends:
-     base >=4 && <5, template-haskell, deepseq, hashable, type-level-numbers >=0.1.1.0 && <0.2.0.0
+     base >=4 && <5, template-haskell, deepseq, hashable
+  if flag(UseGHCTypeLits)
+     Build-Depends: base >=4.7, singletons >=1.0
+     CPP-OPtions: "-DUseGHCTypeLits"
+  else
+     Build-Depends: type-level-numbers >=0.1.1.0 && <0.2.0.0
   Default-Language: Haskell2010
   Other-Extensions:
+     ConstraintKinds
      DeriveDataTypeable
      MultiParamTypeClasses
      ScopedTypeVariables
@@ -56,8 +67,14 @@ Test-suite TestPrimeField
       tasty-th,
       QuickCheck >=2.5 && <3,
       finite-field,
-      primes,
-      type-level-numbers >=0.1.1.0 && <0.2.0.0
+      primes
+  if flag(UseGHCTypeLits)
+     Build-Depends: base >=4.7, singletons >=1.0
+     CPP-OPtions: "-DUseGHCTypeLits"
+  else
+     Build-depends: type-level-numbers >=0.1.1.0 && <0.2.0.0
+  if impl(ghc<7.7)
+     Build-Depends: tagged
   Default-Language: Haskell2010
   Other-Extensions:
       TemplateHaskell
