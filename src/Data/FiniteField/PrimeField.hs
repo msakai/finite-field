@@ -119,7 +119,7 @@ instance KnownNat p => Hashable (PrimeField p) where
     s `hashWithSalt` char x `hashWithSalt` a
 
 -- | Extended GCD algorithm
-exgcd :: (Eq a, Integral a) => a -> a -> (a, a, a)
+exgcd :: Integral a => a -> a -> (a, a, a)
 exgcd f1 f2 = f $ go f1 f2 1 0 0 1
   where
     go !r0 !r1 !s0 !s1 !t0 !t1
