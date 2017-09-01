@@ -18,6 +18,11 @@ Extra-Source-Files:
    .travis.yml
    .gitignore
 Build-Type: Simple
+Tested-With:
+   GHC ==7.8.4
+   GHC ==7.10.3
+   GHC ==8.0.2
+   GHC ==8.2.1
 
 Flag UseGHCTypeLits
   Description: set GHC.TypeLits module
