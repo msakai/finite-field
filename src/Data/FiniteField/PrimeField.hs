@@ -97,8 +97,10 @@ instance KnownNat p => Bounded (PrimeField p) where
 
 instance KnownNat p => Enum (PrimeField p) where
   toEnum x
-    | toInt (minBound :: PrimeField p) <= x && x <= toInt (maxBound :: PrimeField p) = fromIntegral x
+    | toInteger (minBound :: PrimeField p) <= x' && x' <= toInteger (maxBound :: PrimeField p) = PrimeField x'
     | otherwise = error "PrimeField.toEnum: bad argument"
+    where
+      x' = fromIntegral x
   fromEnum = toInt
 
 instance Ord (PrimeField p) where
