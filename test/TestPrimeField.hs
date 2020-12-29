@@ -1,4 +1,4 @@
-{-# LANGUAGE TemplateHaskell, ScopedTypeVariables, GADTs, DataKinds, CPP #-}
+{-# LANGUAGE TemplateHaskell, ScopedTypeVariables, GADTs, DataKinds, CPP, TypeOperators #-}
 {-# OPTIONS_GHC -fcontext-stack=32 #-}
 
 import Prelude hiding (toInteger)
@@ -193,6 +193,10 @@ prop_toEnum_negative = QM.monadicIO $ do
       a = toEnum (-1)
   (ret :: Either SomeException (PrimeField p)) <- QM.run $ try $ evaluate $ a
   QM.assert $ isLeft ret
+
+-- https://github.com/msakai/finite-field/issues/2
+case_toEnum_big_integer =
+  (toEnum 7 :: $(primeField (2^127 - 1))) @?= 7  
 
 -- ----------------------------------------------------------------------
 
