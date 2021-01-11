@@ -46,6 +46,8 @@ jobs:
           stack build --test --no-run-tests --bench --no-run-benchmarks ${{ matrix.flags }}
       - name: Test
         run: stack test ${{ matrix.flags }}
+      - name: Create source tarball
+        run: stack sdist
 
       - name: Coveralls
         if: matrix.coveralls
